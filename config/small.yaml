@@ -1,0 +1,22 @@
+dataset:
+
+  customers: 1000
+  branches: 20
+  employees: 120
+  accounts: 1800
+  cards: 1500
+  loans: 250
+  transactions: 50000
+
+
+generation:
+
+  history_days: 550
+  random_seed: 42
+  chunk_size: 10000
+
+output:
+
+  format: csv
+  clean_directory: output/clean
+  dirty_directory: output/dirty

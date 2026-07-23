@@ -1,0 +1,22 @@
+dataset:
+
+  customers: 100000
+  branches: 500
+  employees: 6000
+  accounts: 220000
+  cards: 180000
+  loans: 30000
+  transactions: 5000000
+
+
+generation:
+
+  history_days: 550
+  random_seed: 42
+  chunk_size: 100000
+
+output:
+
+  format: parquet
+  clean_directory: output/clean
+  dirty_directory: output/dirty
