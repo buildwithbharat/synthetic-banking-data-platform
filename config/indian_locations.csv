@@ -1,21 +1,91 @@
-city,state,region
-New Delhi,Delhi,North
-Mumbai,Maharashtra,West
-Pune,Maharashtra,West
-Bengaluru,Karnataka,South
-Hyderabad,Telangana,South
-Chennai,Tamil Nadu,South
-Kolkata,West Bengal,East
-Ahmedabad,Gujarat,West
-Jaipur,Rajasthan,North
-Lucknow,Uttar Pradesh,North
-Chandigarh,Chandigarh,North
-Bhopal,Madhya Pradesh,Central
-Patna,Bihar,East
-Bhubaneswar,Odisha,East
-Guwahati,Assam,North East
-Kochi,Kerala,South
-Thiruvananthapuram,Kerala,South
-Indore,Madhya Pradesh,Central
-Nagpur,Maharashtra,West
-Surat,Gujarat,West
+city,state,region,tier,locality
+Delhi,Delhi,North,Metro,Connaught Place
+Delhi,Delhi,North,Metro,Dwarka
+Delhi,Delhi,North,Metro,Rohini
+Delhi,Delhi,North,Metro,Karol Bagh
+Delhi,Delhi,North,Metro,Saket
+Mumbai,Maharashtra,West,Metro,Andheri
+Mumbai,Maharashtra,West,Metro,Bandra
+Mumbai,Maharashtra,West,Metro,Powai
+Mumbai,Maharashtra,West,Metro,Dadar
+Mumbai,Maharashtra,West,Metro,Borivali
+Bengaluru,Karnataka,South,Metro,Whitefield
+Bengaluru,Karnataka,South,Metro,Indiranagar
+Bengaluru,Karnataka,South,Metro,Koramangala
+Bengaluru,Karnataka,South,Metro,Jayanagar
+Bengaluru,Karnataka,South,Metro,Electronic City
+Hyderabad,Telangana,South,Metro,Gachibowli
+Hyderabad,Telangana,South,Metro,Madhapur
+Hyderabad,Telangana,South,Metro,Secunderabad
+Hyderabad,Telangana,South,Metro,Banjara Hills
+Hyderabad,Telangana,South,Metro,Kukatpally
+Chennai,Tamil Nadu,South,Metro,T Nagar
+Chennai,Tamil Nadu,South,Metro,Anna Nagar
+Chennai,Tamil Nadu,South,Metro,Velachery
+Chennai,Tamil Nadu,South,Metro,Adyar
+Chennai,Tamil Nadu,South,Metro,Tambaram
+Kolkata,West Bengal,East,Metro,Park Street
+Kolkata,West Bengal,East,Metro,Salt Lake
+Kolkata,West Bengal,East,Metro,Howrah
+Kolkata,West Bengal,East,Metro,Dum Dum
+Kolkata,West Bengal,East,Metro,Garia
+Pune,Maharashtra,West,Tier2,Shivajinagar
+Pune,Maharashtra,West,Tier2,Kothrud
+Pune,Maharashtra,West,Tier2,Hinjawadi
+Ahmedabad,Gujarat,West,Tier2,Navrangpura
+Ahmedabad,Gujarat,West,Tier2,Satellite
+Ahmedabad,Gujarat,West,Tier2,Maninagar
+Jaipur,Rajasthan,North,Tier2,Vaishali Nagar
+Jaipur,Rajasthan,North,Tier2,Malviya Nagar
+Jaipur,Rajasthan,North,Tier2,Mansarovar
+Lucknow,Uttar Pradesh,North,Tier2,Gomti Nagar
+Lucknow,Uttar Pradesh,North,Tier2,Hazratganj
+Lucknow,Uttar Pradesh,North,Tier2,Alambagh
+Chandigarh,Chandigarh,North,Tier2,Sector 17
+Chandigarh,Chandigarh,North,Tier2,Sector 22
+Chandigarh,Chandigarh,North,Tier2,Mohali
+Indore,Madhya Pradesh,Central,Tier2,Vijay Nagar
+Indore,Madhya Pradesh,Central,Tier2,Palasia
+Indore,Madhya Pradesh,Central,Tier2,Rajendra Nagar
+Nagpur,Maharashtra,West,Tier2,Dharampeth
+Nagpur,Maharashtra,West,Tier2,Sitabuldi
+Nagpur,Maharashtra,West,Tier2,Manish Nagar
+Patna,Bihar,East,Tier2,Boring Road
+Patna,Bihar,East,Tier2,Kankarbagh
+Patna,Bihar,East,Tier2,Bailey Road
+Bhubaneswar,Odisha,East,Tier2,Patia
+Bhubaneswar,Odisha,East,Tier2,Saheed Nagar
+Bhubaneswar,Odisha,East,Tier2,Old Town
+Kochi,Kerala,South,Tier2,Kakkanad
+Kochi,Kerala,South,Tier2,Edappally
+Kochi,Kerala,South,Tier2,Fort Kochi
+Dehradun,Uttarakhand,North,Tier3,Rajpur Road
+Dehradun,Uttarakhand,North,Tier3,Clement Town
+Roorkee,Uttarakhand,North,Tier3,Civil Lines
+Roorkee,Uttarakhand,North,Tier3,IIT Roorkee
+Udaipur,Rajasthan,North,Tier3,Hiran Magri
+Udaipur,Rajasthan,North,Tier3,Fatehpura
+Ajmer,Rajasthan,North,Tier3,Vaishali Nagar
+Ajmer,Rajasthan,North,Tier3,Adarsh Nagar
+Gwalior,Madhya Pradesh,Central,Tier3,Lashkar
+Gwalior,Madhya Pradesh,Central,Tier3,City Centre
+Jabalpur,Madhya Pradesh,Central,Tier3,Napier Town
+Jabalpur,Madhya Pradesh,Central,Tier3,Wright Town
+Ranchi,Jharkhand,East,Tier3,Harmu
+Ranchi,Jharkhand,East,Tier3,Doranda
+Dhanbad,Jharkhand,East,Tier3,Bank More
+Dhanbad,Jharkhand,East,Tier3,Hirapur
+Siliguri,West Bengal,East,Tier3,Sevoke Road
+Siliguri,West Bengal,East,Tier3,Pradhan Nagar
+Varanasi,Uttar Pradesh,North,Tier3,Sigra
+Varanasi,Uttar Pradesh,North,Tier3,Lanka
+Mysuru,Karnataka,South,Tier3,Kuvempu Nagar
+Mysuru,Karnataka,South,Tier3,Vijayanagar
+Hubballi,Karnataka,South,Tier3,Vidyanagar
+Hubballi,Karnataka,South,Tier3,Keshwapur
+Salem,Tamil Nadu,South,Tier3,Fairlands
+Salem,Tamil Nadu,South,Tier3,Hasthampatti
+Madurai,Tamil Nadu,South,Tier3,Anna Nagar
+Madurai,Tamil Nadu,South,Tier3,KK Nagar
+Jodhpur,Rajasthan,North,Tier3,Sardarpura
+Jodhpur,Rajasthan,North,Tier3,Ratanada
