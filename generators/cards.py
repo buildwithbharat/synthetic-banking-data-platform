@@ -8,8 +8,9 @@ Business Rules:
 """
 
 import random
-from dateutil.relativedelta import relativedelta
+
 import pandas as pd
+from dateutil.relativedelta import relativedelta
 
 CARD_NETWORKS = [
     "RuPay",
@@ -24,14 +25,39 @@ CARD_STATUS = [
 ]
 
 
-def create_card(card_id, account, card_type):
+def random_issue_date(opening_date, current_time):
+    """
+    Generate a random issue date between
+    account opening and today.
+    """
 
-    issue_date = random.choice(
-        pd.date_range(
-            pd.to_datetime(account["opening_date"]),
-            pd.Timestamp.today(),
-        )
+    start = pd.Timestamp(opening_date)
+
+    start_seconds = int(start.timestamp())
+    end_seconds = int(current_time.timestamp())
+
+    random_seconds = random.randint(
+        start_seconds,
+        end_seconds,
+    )
+
+    return pd.Timestamp(
+        random_seconds,
+        unit="s",
     ).date()
+
+
+def create_card(
+    card_id,
+    account,
+    card_type,
+    current_time,
+):
+
+    issue_date = random_issue_date(
+        account["opening_date"],
+        current_time,
+    )
 
     expiry_date = issue_date + relativedelta(years=5)
 
@@ -54,15 +80,17 @@ def create_card(card_id, account, card_type):
     }
 
 
-def generate_cards(config):
-
-    accounts = pd.read_csv("output/clean/accounts.csv")
+def generate_cards(config, accounts):
 
     cards = []
 
     card_id = 1
 
-    for _, account in accounts.iterrows():
+    current_time = pd.Timestamp.now()
+
+    account_records = accounts.to_dict("records")
+
+    for account in account_records:
 
         # 90% accounts receive a Debit Card
         if random.random() <= 0.90:
@@ -72,6 +100,7 @@ def generate_cards(config):
                     card_id,
                     account,
                     "Debit",
+                    current_time,
                 )
             )
 
@@ -85,6 +114,7 @@ def generate_cards(config):
                         card_id,
                         account,
                         "Credit",
+                        current_time,
                     )
                 )
 

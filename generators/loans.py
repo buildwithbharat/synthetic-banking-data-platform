@@ -41,22 +41,53 @@ LOAN_TYPES = {
 }
 
 
-def generate_loans(config):
+def random_start_date(opening_date, current_time):
 
-    customers = pd.read_csv("output/clean/customers.csv")
-    accounts = pd.read_csv("output/clean/accounts.csv")
+    start = pd.Timestamp(opening_date)
+
+    start_seconds = int(start.timestamp())
+    end_seconds = int(current_time.timestamp())
+
+    random_seconds = random.randint(
+        start_seconds,
+        end_seconds,
+    )
+
+    return pd.Timestamp(
+        random_seconds,
+        unit="s",
+    ).date()
+
+
+def generate_loans(config, customers, accounts):
 
     loans = []
 
     loan_id = 1
 
-    for _, customer in customers.iterrows():
+    current_time = pd.Timestamp.now()
 
-        customer_accounts = accounts[
-            accounts["customer_id"] == customer["customer_id"]
-        ]
+    customer_records = customers.to_dict("records")
+    account_records = accounts.to_dict("records")
 
-        if customer_accounts.empty:
+    # Build customer -> accounts lookup once
+    customer_accounts = {}
+
+    for account in account_records:
+
+        customer_accounts.setdefault(
+            account["customer_id"],
+            [],
+        ).append(account)
+
+    for customer in customer_records:
+
+        accounts_for_customer = customer_accounts.get(
+            customer["customer_id"],
+            [],
+        )
+
+        if not accounts_for_customer:
             continue
 
         loan_count = random.choices(
@@ -72,21 +103,21 @@ def generate_loans(config):
 
             details = LOAN_TYPES[loan_type]
 
-            account = customer_accounts.sample(1).iloc[0]
+            account = random.choice(accounts_for_customer)
 
-            loan_amount = random.randint(*details["amount"])
+            loan_amount = random.randint(
+                *details["amount"]
+            )
 
             outstanding_balance = random.randint(
                 int(loan_amount * 0.2),
                 loan_amount,
             )
 
-            start_date = random.choice(
-                pd.date_range(
-                    pd.to_datetime(account["opening_date"]),
-                    pd.Timestamp.today(),
-                )
-            ).date()
+            start_date = random_start_date(
+                account["opening_date"],
+                current_time,
+            )
 
             loans.append(
                 {
@@ -97,7 +128,11 @@ def generate_loans(config):
                     "loan_amount": loan_amount,
                     "interest_rate": details["interest"],
                     "loan_status": random.choices(
-                        ["Active", "Closed", "Defaulted"],
+                        [
+                            "Active",
+                            "Closed",
+                            "Defaulted",
+                        ],
                         weights=[85, 10, 5],
                         k=1,
                     )[0],

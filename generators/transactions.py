@@ -35,9 +35,56 @@ MERCHANT_CATEGORIES = [
 ]
 
 
-def generate_transactions(config):
+def random_transaction_timestamp(opening_date, current_time):
+    """
+    Generate a random timestamp between account opening
+    and the current time.
+    """
 
-    accounts = pd.read_csv("output/clean/accounts.csv")
+    start = pd.Timestamp(opening_date)
+
+    start_seconds = int(start.timestamp())
+    end_seconds = int(current_time.timestamp())
+
+    random_seconds = random.randint(start_seconds, end_seconds)
+
+    return pd.Timestamp(random_seconds, unit="s")
+
+
+def build_transaction(account, transaction_id, current_time):
+
+    mode = random.choices(
+        list(TRANSACTION_MODES.keys()),
+        weights=[45, 10, 15, 10, 2, 13, 5],
+        k=1,
+    )[0]
+
+    return {
+        "transaction_id": f"TXN{transaction_id:010d}",
+        "account_id": account["account_id"],
+        "transaction_timestamp": random_transaction_timestamp(
+            account["opening_date"],
+            current_time,
+        ),
+        "transaction_type": random.choice(
+            ["Credit", "Debit"]
+        ),
+        "transaction_mode": mode,
+        "amount": random.randint(
+            *TRANSACTION_MODES[mode]
+        ),
+        "merchant_category": random.choice(
+            MERCHANT_CATEGORIES
+        ),
+        "transaction_status": random.choices(
+            ["Success", "Failed", "Reversed"],
+            weights=[98, 1, 1],
+            k=1,
+        )[0],
+    }
+
+
+def generate_transactions(config, accounts):
 
     total_transactions = config["dataset"]["transactions"]
 
@@ -45,87 +92,37 @@ def generate_transactions(config):
 
     transaction_id = 1
 
+    current_time = pd.Timestamp.now()
+
+    account_records = accounts.to_dict("records")
+
     # Every account gets at least 5 transactions
-    for _, account in accounts.iterrows():
+    for account in account_records:
 
         for _ in range(5):
 
-            mode = random.choices(
-                list(TRANSACTION_MODES.keys()),
-                weights=[45, 10, 15, 10, 2, 13, 5],
-                k=1,
-            )[0]
-
             transactions.append(
-                {
-                    "transaction_id": f"TXN{transaction_id:010d}",
-                    "account_id": account["account_id"],
-                    "transaction_timestamp": random.choice(
-                        pd.date_range(
-                            pd.to_datetime(account["opening_date"]),
-                            pd.Timestamp.now(),
-                            freq="h",
-                        )
-                    ),
-                    "transaction_type": random.choice(
-                        ["Credit", "Debit"]
-                    ),
-                    "transaction_mode": mode,
-                    "amount": random.randint(
-                        *TRANSACTION_MODES[mode]
-                    ),
-                    "merchant_category": random.choice(
-                        MERCHANT_CATEGORIES
-                    ),
-                    "transaction_status": random.choices(
-                        ["Success", "Failed", "Reversed"],
-                        weights=[98, 1, 1],
-                        k=1,
-                    )[0],
-                }
+                build_transaction(
+                    account,
+                    transaction_id,
+                    current_time,
+                )
             )
 
             transaction_id += 1
 
-    remaining = total_transactions - (len(accounts) * 5)
+    remaining = total_transactions - (len(account_records) * 5)
 
     for _ in range(remaining):
 
-        account = accounts.sample(1).iloc[0]
-
-        mode = random.choices(
-            list(TRANSACTION_MODES.keys()),
-            weights=[45, 10, 15, 10, 2, 13, 5],
-            k=1,
-        )[0]
+        account = random.choice(account_records)
 
         transactions.append(
-            {
-                "transaction_id": f"TXN{transaction_id:010d}",
-                "account_id": account["account_id"],
-                "transaction_timestamp": random.choice(
-                    pd.date_range(
-                        pd.to_datetime(account["opening_date"]),
-                        pd.Timestamp.now(),
-                        freq="h",
-                    )
-                ),
-                "transaction_type": random.choice(
-                    ["Credit", "Debit"]
-                ),
-                "transaction_mode": mode,
-                "amount": random.randint(
-                    *TRANSACTION_MODES[mode]
-                ),
-                "merchant_category": random.choice(
-                    MERCHANT_CATEGORIES
-                ),
-                "transaction_status": random.choices(
-                    ["Success", "Failed", "Reversed"],
-                    weights=[98, 1, 1],
-                    k=1,
-                )[0],
-            }
+            build_transaction(
+                account,
+                transaction_id,
+                current_time,
+            )
         )
 
         transaction_id += 1

@@ -1,4 +1,5 @@
 import os
+import time
 import yaml
 
 from generators.accounts import generate_accounts
@@ -40,35 +41,97 @@ def main():
     with open("config/medium.yaml", "r") as file:
         config = yaml.safe_load(file)
 
-    # Branches
+    print("=" * 60)
+    print("Synthetic Banking Data Generator")
+    print("=" * 60)
+
+    # ------------------------------------------------------------------
+    print("\n[1/7] Generating Branches...")
+    start = time.perf_counter()
+
     branches = generate_branches(config)
     write_dataset(branches, "branches", config)
 
-    # Employees
+    print(
+        f"✓ Branches generated ({len(branches):,} rows) "
+        f"in {time.perf_counter() - start:.2f}s"
+    )
+
+    # ------------------------------------------------------------------
+    print("\n[2/7] Generating Employees...")
+    start = time.perf_counter()
+
     employees = generate_employees(config, branches)
     write_dataset(employees, "employees", config)
 
-    # Customers
+    print(
+        f"✓ Employees generated ({len(employees):,} rows) "
+        f"in {time.perf_counter() - start:.2f}s"
+    )
+
+    # ------------------------------------------------------------------
+    print("\n[3/7] Generating Customers...")
+    start = time.perf_counter()
+
     customers = generate_customers(config)
     write_dataset(customers, "customers", config)
 
-    # Accounts
-    accounts = generate_accounts(config)
+    print(
+        f"✓ Customers generated ({len(customers):,} rows) "
+        f"in {time.perf_counter() - start:.2f}s"
+    )
+
+    # ------------------------------------------------------------------
+    print("\n[4/7] Generating Accounts...")
+    start = time.perf_counter()
+
+    accounts = generate_accounts(config, customers, branches)
     write_dataset(accounts, "accounts", config)
 
-    # Transactions
-    transactions = generate_transactions(config)
+    print(
+        f"✓ Accounts generated ({len(accounts):,} rows) "
+        f"in {time.perf_counter() - start:.2f}s"
+    )
+
+    # ------------------------------------------------------------------
+    print("\n[5/7] Generating Transactions...")
+    start = time.perf_counter()
+
+    transactions = generate_transactions(config, accounts)
     write_dataset(transactions, "transactions", config)
 
-    # Cards
-    cards = generate_cards(config)
+    print(
+        f"✓ Transactions generated ({len(transactions):,} rows) "
+        f"in {time.perf_counter() - start:.2f}s"
+    )
+
+    # ------------------------------------------------------------------
+    print("\n[6/7] Generating Cards...")
+    start = time.perf_counter()
+
+    cards = cards = generate_cards(config,accounts)
     write_dataset(cards, "cards", config)
 
-    # Loans
-    loans = generate_loans(config)
+    print(
+        f"✓ Cards generated ({len(cards):,} rows) "
+        f"in {time.perf_counter() - start:.2f}s"
+    )
+
+    # ------------------------------------------------------------------
+    print("\n[7/7] Generating Loans...")
+    start = time.perf_counter()
+
+    loans = generate_loans(config, customers, accounts)
     write_dataset(loans, "loans", config)
 
-    print("Synthetic banking dataset generated successfully!")
+    print(
+        f"✓ Loans generated ({len(loans):,} rows) "
+        f"in {time.perf_counter() - start:.2f}s"
+    )
+
+    print("\n" + "=" * 60)
+    print("✓ Synthetic banking dataset generated successfully!")
+    print("=" * 60)
 
 
 if __name__ == "__main__":
