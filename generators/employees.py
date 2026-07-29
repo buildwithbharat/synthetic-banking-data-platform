@@ -23,8 +23,7 @@ DESIGNATIONS = {
 }
 
 
-def generate_employees(config):
-    branches = pd.read_csv("output/clean/branches.csv")
+def generate_employees(config, branches):
     total_employees = config["dataset"]["employees"]
 
     employees = []

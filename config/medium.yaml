@@ -18,5 +18,5 @@ generation:
 output:
 
   format: parquet
-  clean_directory: output/clean
-  dirty_directory: output/dirty
+  clean_directory: output\clean\medium_dataset
+  dirty_directory: output\dirty\medium_dataset

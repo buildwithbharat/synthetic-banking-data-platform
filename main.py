@@ -1,3 +1,4 @@
+import os
 import yaml
 
 from generators.accounts import generate_accounts
@@ -9,6 +10,29 @@ from generators.loans import generate_loans
 from generators.transactions import generate_transactions
 
 from writers.csv_writer import write_csv
+from writers.parquet_writer import write_parquet
+
+
+def write_dataset(dataframe, dataset_name, config):
+    output_format = config["output"]["format"]
+    output_directory = config["output"]["clean_directory"]
+
+    os.makedirs(output_directory, exist_ok=True)
+
+    if output_format == "csv":
+        write_csv(
+            dataframe,
+            f"{output_directory}/{dataset_name}.csv",
+        )
+
+    elif output_format == "parquet":
+        write_parquet(
+            dataframe,
+            f"{output_directory}/{dataset_name}.parquet",
+        )
+
+    else:
+        raise ValueError(f"Unsupported output format: {output_format}")
 
 
 def main():
@@ -18,52 +42,31 @@ def main():
 
     # Branches
     branches = generate_branches(config)
-    write_csv(
-        branches,
-        "output/clean/branches.csv",
-    )
+    write_dataset(branches, "branches", config)
 
     # Employees
-    employees = generate_employees(config)
-    write_csv(
-        employees,
-        "output/clean/employees.csv",
-    )
+    employees = generate_employees(config, branches)
+    write_dataset(employees, "employees", config)
 
     # Customers
     customers = generate_customers(config)
-    write_csv(
-        customers,
-        "output/clean/customers.csv",
-    )
+    write_dataset(customers, "customers", config)
 
     # Accounts
     accounts = generate_accounts(config)
-    write_csv(
-        accounts,
-        "output/clean/accounts.csv",
-    )
+    write_dataset(accounts, "accounts", config)
 
     # Transactions
     transactions = generate_transactions(config)
-    write_csv(
-        transactions,
-        "output/clean/transactions.csv",
-    )
+    write_dataset(transactions, "transactions", config)
 
     # Cards
     cards = generate_cards(config)
-    write_csv(
-        cards,
-        "output/clean/cards.csv",
-    )
+    write_dataset(cards, "cards", config)
 
     # Loans
     loans = generate_loans(config)
-    write_csv(
-        loans,
-        "output/clean/loans.csv",
-    )
+    write_dataset(loans, "loans", config)
 
     print("Synthetic banking dataset generated successfully!")
 
