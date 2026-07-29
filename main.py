@@ -13,7 +13,7 @@ from writers.csv_writer import write_csv
 
 def main():
 
-    with open("config/small.yaml", "r") as file:
+    with open("config/medium.yaml", "r") as file:
         config = yaml.safe_load(file)
 
     # Branches
